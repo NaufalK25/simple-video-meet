@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2020",
+      "es2021",
+      "dom"
+    ],
+    "module": "commonjs",
+    "target": "es2021",
+    "types": [
+      "node"
+    ],
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "importHelpers": true,
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}
