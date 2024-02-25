@@ -11,9 +11,9 @@ function App() {
   const myVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
   const peerRef = useRef<Peer | null>(null);
-  const [recipientId, setRecipientId] = useState("");
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [myPeerId, setMyPeerId] = useState<string | null>(null);
+  const [myPeerId, setMyPeerId] = useState("");
+  const [recipientId, setRecipientId] = useState("");
   const [cameraStatus, setCameraStatus] = useState(false);
   const [micStatus, setMicStatus] = useState(false);
   // console.log('env', import.meta.env.VITE_SOCKET_SERVER);
@@ -136,22 +136,25 @@ function App() {
   return (
     <div className="container">
       <h1>Simple Video Meet</h1>
-      <p>Your Peer ID: {myPeerId}</p>
-      <div className="form-container">
-        <input
-          type="text"
-          placeholder="Enter Recipient Id"
-          value={recipientId}
-          onChange={(e) => setRecipientId(e.target.value)}
-        />
-        <img
-          className="icon"
-          onClick={startCall}
-          src="phone.svg"
-          alt=""
-          title="Start Call"
-        />
-      </div>
+      <p>Your Peer Id: {myPeerId}</p>
+      {!remoteVideoRef.current?.srcObject ? (
+        <div className="form-container">
+          <input
+            type="text"
+            placeholder="Enter Recipient Id"
+            value={recipientId}
+            onChange={(e) => setRecipientId(e.target.value)}
+          />
+          <img
+            className="icon"
+            onClick={startCall}
+            src="phone.svg"
+            alt=""
+            title="Start Call"
+          />
+        </div>
+      ) : null}
+
       <div className="video-container">
         <video ref={myVideoRef} autoPlay playsInline muted={micStatus} />
         <video
@@ -162,41 +165,21 @@ function App() {
         />
       </div>
       <div className="button-action-container">
-        {cameraStatus ? (
-          <img
-            className="icon"
-            onClick={switchCamera}
-            src="video-off.svg"
-            alt=""
-            title="Turn Camera On"
-          />
-        ) : (
-          <img
-            className="icon"
-            onClick={switchCamera}
-            src="video.svg"
-            alt=""
-            title="Turn Camera Off"
-          />
-        )}
-        {micStatus ? (
-          <img
-            className="icon"
-            onClick={switchMic}
-            src="mic-off.svg"
-            alt=""
-            title="Turn Mic On"
-          />
-        ) : (
-          <img
-            className="icon"
-            onClick={switchMic}
-            src="mic.svg"
-            alt=""
-            title="Turn Mic Off"
-          />
-        )}
-        {remoteVideoRef.current?.srcObject !== null ? (
+        <img
+          className="icon"
+          onClick={switchCamera}
+          src={cameraStatus ? "video-off.svg" : "video.svg"}
+          alt=""
+          title={`Turn Camera ${cameraStatus ? "On" : "Off"}`}
+        />
+        <img
+          className="icon"
+          onClick={switchMic}
+          src={micStatus ? "mic-off.svg" : "mic.svg"}
+          alt=""
+          title={`Turn Mic ${micStatus ? "On" : "Off"}`}
+        />
+        {remoteVideoRef.current?.srcObject ? (
           <img
             className="icon leave-icon"
             onClick={leaveCall}
