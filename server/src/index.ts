@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("signal", (data) => {
-    console.log("signal", data);
+    // console.log("signal", data);
     io.to(data.to).emit("signal", {
       from: socket.id,
       signal: data.signal,
@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("initiateCall", (to: string) => {
-    console.log("initiateCall", to);
+    // console.log("initiateCall", to);
     io.to(to).emit("initiateCall", socket.id);
   });
 });

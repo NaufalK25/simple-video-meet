@@ -16,7 +16,8 @@ function App() {
   const [myPeerId, setMyPeerId] = useState<string | null>(null);
   const [cameraStatus, setCameraStatus] = useState(false);
   const [micStatus, setMicStatus] = useState(false);
-  console.log('env', import.meta.env.VITE_SOCKET_SERVER);
+  // console.log('env', import.meta.env.VITE_SOCKET_SERVER);
+
   useEffect(() => {
     const initPeer = () => {
       peerRef.current = new Peer();
@@ -26,13 +27,13 @@ function App() {
         setMyPeerId(id);
       });
 
-      console.log("peerRef.current", peerRef.current);
+      // console.log("peerRef.current", peerRef.current);
 
       peerRef.current.on("call", (call) => {
-        console.log("call", call);
+        // console.log("call", call);
         call.answer(stream as MediaStream);
         call.on("stream", (remoteStream) => {
-          console.log("remoteStream", remoteStream);
+          // console.log("remoteStream", remoteStream);
           if (remoteVideoRef.current) {
             remoteVideoRef.current.srcObject = remoteStream;
           }
@@ -40,7 +41,7 @@ function App() {
       });
 
       peerRef.current.on("connection", (conn) => {
-        console.log("conn", conn);
+        // console.log("conn", conn);
 
         conn.on("data", (data) => {
           console.log("Data received from peer:", data);
@@ -61,7 +62,7 @@ function App() {
         if (myVideoRef.current) {
           myVideoRef.current.srcObject = userStream;
         }
-        console.log("stream", userStream);
+        // console.log("stream", userStream);
 
         initPeer();
       })
@@ -84,16 +85,16 @@ function App() {
     }
 
     if (peerRef.current && stream) {
-      console.log("startCall.recipientId", recipientId);
-      console.log("startCall.stream", stream);
+      // console.log("startCall.recipientId", recipientId);
+      // console.log("startCall.stream", stream);
       const call = peerRef.current.call(recipientId, stream);
-      console.log("startCall.call", call);
+      // console.log("startCall.call", call);
       call.on("stream", (remoteStream) => {
-        console.log("startCall.stream", remoteStream);
+        // console.log("startCall.stream", remoteStream);
         if (remoteVideoRef.current) {
           remoteVideoRef.current.srcObject = remoteStream;
         }
-        console.log("remoteVideoRef.current", remoteVideoRef.current);
+        // console.log("remoteVideoRef.current", remoteVideoRef.current);
       });
     }
   };
