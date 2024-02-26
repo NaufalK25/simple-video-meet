@@ -28,19 +28,6 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
-
-  socket.on("signal", (data) => {
-    // console.log("signal", data);
-    io.to(data.to).emit("signal", {
-      from: socket.id,
-      signal: data.signal,
-    });
-  });
-
-  socket.on("initiateCall", (to: string) => {
-    // console.log("initiateCall", to);
-    io.to(to).emit("initiateCall", socket.id);
-  });
 });
 
 const PORT = process.env.PORT || 5000;
